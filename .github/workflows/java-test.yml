@@ -36,7 +36,7 @@ jobs:
           java-version: '21'
 
       - name: Set up Maven
-        run: mvnw -B clean verify
+        run: mvn -B clean verify
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/aloha
           SPRING_DATASOURCE_USERNAME: postgres
