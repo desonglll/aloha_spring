@@ -1,6 +1,5 @@
 package com.sd.alohaspring.service.permission;
 
-import com.sd.alohaspring.model.permission.Permission;
 import com.sd.alohaspring.model.permission.PermissionDTO;
 
 import java.util.List;

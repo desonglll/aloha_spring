@@ -1,8 +1,12 @@
 package com.sd.alohaspring.service.user.group;
 
+import com.sd.alohaspring.exception.repository.EntityDuplicatedException;
+import com.sd.alohaspring.exception.repository.EntityNotFoundException;
+import com.sd.alohaspring.exception.repository.SaveEntityException;
 import com.sd.alohaspring.model.user.group.UserGroup;
 import com.sd.alohaspring.model.user.group.UserGroupDTO;
 import com.sd.alohaspring.repository.UserGroupRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
@@ -32,17 +36,28 @@ public class UserGroupServiceImpl implements UserGroupService {
     @Override
     public UserGroupDTO saveUserGroup(UserGroupDTO userGroupDTO) {
         UserGroup userGroup = convertToEntity(userGroupDTO);
-        UserGroup savedUserGroup = userGroupRepository.save(userGroup);
-        return convertToDTO(savedUserGroup);
+        try {
+            UserGroup savedUserGroup = userGroupRepository.save(userGroup);
+            return convertToDTO(savedUserGroup);
+        } catch (DataIntegrityViolationException e) {
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                org.hibernate.exception.ConstraintViolationException cve =
+                        (org.hibernate.exception.ConstraintViolationException) e.getCause();
+                throw new EntityDuplicatedException(cve.getSQLException().getMessage());
+
+            }
+            throw new SaveEntityException(e.getMessage());
+        }
     }
+
 
     @Override
     public UserGroupDTO updateUserGroup(UUID id, UserGroupDTO userGroupDTO) {
         UserGroup userGroup = userGroupRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("UserGroup not found"));
+                .orElseThrow(() -> new EntityNotFoundException("UserGroup", id));
 
-        if (userGroupDTO.getGroupName() != null) {
-            userGroup.setGroupName(userGroupDTO.getGroupName());
+        if (userGroupDTO.groupName() != null) {
+            userGroup.setGroupName(userGroupDTO.groupName());
         }
 
         userGroup.setUpdatedAt(OffsetDateTime.now());
@@ -66,9 +81,10 @@ public class UserGroupServiceImpl implements UserGroupService {
 
     private UserGroup convertToEntity(UserGroupDTO userGroupDTO) {
         UserGroup userGroup = new UserGroup();
-        userGroup.setId(userGroupDTO.getId());
-        userGroup.setGroupName(userGroupDTO.getGroupName());
-        userGroup.setCreatedAt(userGroupDTO.getCreatedAt());
+        userGroup.setId(userGroupDTO.id());
+        userGroup.setGroupName(userGroupDTO.groupName());
+        userGroup.setCreatedAt(userGroupDTO.createdAt());
+        userGroup.setUpdatedAt(userGroupDTO.updatedAt());
         return userGroup;
     }
 }
