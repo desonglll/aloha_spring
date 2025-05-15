@@ -1,8 +1,14 @@
 package com.sd.alohaspring.service.permission;
 
+import com.sd.alohaspring.exception.repository.EntityDuplicatedException;
+import com.sd.alohaspring.exception.repository.EntityNotFoundException;
+import com.sd.alohaspring.exception.repository.SaveEntityException;
 import com.sd.alohaspring.model.permission.Permission;
 import com.sd.alohaspring.model.permission.PermissionDTO;
 import com.sd.alohaspring.repository.PermissionRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.hibernate.exception.ConstraintViolationException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,6 +16,7 @@ import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 public class PermissionServiceImpl implements PermissionService {
 
@@ -32,18 +39,27 @@ public class PermissionServiceImpl implements PermissionService {
     @Override
     public PermissionDTO savePermission(PermissionDTO permissionDTO) {
         Permission permission = convertToEntity(permissionDTO);
-        permissionRepository.save(permission);
-        return convertToDTO(permission);
+        try {
+            permissionRepository.save(permission);
+            return convertToDTO(permission);
+        } catch (DataIntegrityViolationException e) {
+            log.error(e.getCause().getMessage());
+            if (e.getCause() instanceof org.hibernate.exception.ConstraintViolationException) {
+                ConstraintViolationException cve = (ConstraintViolationException) e.getCause();
+                throw new EntityDuplicatedException(cve.getSQLException().getMessage());
+            }
+            throw new SaveEntityException(e.getMessage());
+        }
     }
 
     @Override
     public PermissionDTO updatePermission(UUID id, PermissionDTO permissionDTO) {
-        Permission permission = permissionRepository.findById(id).orElseThrow();
-        if (permissionDTO.getPermissionKey() != null) {
-            permission.setPermissionKey(permissionDTO.getPermissionKey());
+        Permission permission = permissionRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Permission", id));
+        if (permissionDTO.permissionKey() != null) {
+            permission.setPermissionKey(permissionDTO.permissionKey());
         }
-        if (permissionDTO.getDescription() != null) {
-            permission.setDescription(permissionDTO.getDescription());
+        if (permissionDTO.description() != null) {
+            permission.setDescription(permissionDTO.description());
         }
         return convertToDTO(permissionRepository.save(permission));
     }
@@ -56,18 +72,14 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     private PermissionDTO convertToDTO(Permission permission) {
-        PermissionDTO permissionDTO = new PermissionDTO();
-        permissionDTO.setId(permission.getId());
-        permissionDTO.setPermissionKey(permission.getPermissionKey());
-        permissionDTO.setDescription(permission.getDescription());
-        return permissionDTO;
+        return new PermissionDTO(permission.getId(), permission.getPermissionKey(), permission.getDescription());
     }
 
     private Permission convertToEntity(PermissionDTO permissionDTO) {
         Permission permission = new Permission();
-        permission.setId(permissionDTO.getId());
-        permission.setPermissionKey(permissionDTO.getPermissionKey());
-        permission.setDescription(permissionDTO.getDescription());
+        permission.setId(permissionDTO.id());
+        permission.setPermissionKey(permissionDTO.permissionKey());
+        permission.setDescription(permissionDTO.description());
         return permission;
     }
 }

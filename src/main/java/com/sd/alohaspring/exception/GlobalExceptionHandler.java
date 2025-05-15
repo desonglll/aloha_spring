@@ -1,57 +1,35 @@
 package com.sd.alohaspring.exception;
 
-import com.sd.alohaspring.common.ApiResponse;
-import jakarta.validation.ConstraintViolationException;
-import org.hibernate.PropertyValueException;
-import org.springframework.dao.DataIntegrityViolationException;
+import com.sd.alohaspring.common.ErrorResponse;
+import com.sd.alohaspring.exception.repository.EntityDuplicatedException;
+import com.sd.alohaspring.exception.repository.EntityNotFoundException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.NoSuchElementException;
-
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(PropertyValueException.class)
-    public ResponseEntity<ApiResponse<Void>> handlePropertyValueException(PropertyValueException ex) {
-        ex.printStackTrace();
-        ApiResponse<Void> body = ApiResponse.error(400, ex.getEntityName() + " missing field: " + ex.getPropertyName());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);  // 重点在这里设置真正的 HTTP 状态码
+
+    private ResponseEntity<ErrorResponse> buildErrorResponse(HttpStatus status, String message, String detail) {
+        return ResponseEntity.status(status).body(ErrorResponse.error(status.value(), message, detail));
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ApiResponse<Void>> handleBadRequest(HttpMessageNotReadableException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(400, "Malformed JSON request"));
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFound(EntityNotFoundException ex) {
+        return buildErrorResponse(HttpStatus.NOT_FOUND, "Entity Not Found.", ex.getMessage());
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiResponse<Void>> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        Throwable cause = ex.getCause();
-        if (cause instanceof PropertyValueException pve) {
-            String message = pve.getEntityName() + " missing field: " + pve.getPropertyName();
-            return ResponseEntity.badRequest().body(ApiResponse.error(400, message));
-        }
-
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(ApiResponse.error(400, "Data integrity violation: " + ex.getMessage()));
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ApiResponse<Void>> handleNoSuchElementException(NoSuchElementException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ApiResponse.error(404, "Not found: " + ex.getMessage()));
+    @ExceptionHandler(EntityDuplicatedException.class)
+    public ResponseEntity<ErrorResponse> handleEntityDuplicated(EntityDuplicatedException ex) {
+        return buildErrorResponse(HttpStatus.BAD_REQUEST, "Entity Duplicated.", ex.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiResponse<Void>> handleGenericException(Exception ex) {
+    public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
         ex.printStackTrace();
-        return ResponseEntity
-                .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(ApiResponse.error(500, "INTERNAL_SERVER_ERROR: " + ex.getMessage()));
+        return buildErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR, "INTERNAL_SERVER_ERROR.", ex.getMessage());
     }
 }

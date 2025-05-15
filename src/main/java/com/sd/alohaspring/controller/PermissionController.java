@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/permission")
+@RequestMapping("/api/permissions")
 public class PermissionController {
     private final PermissionService permissionService;
 
