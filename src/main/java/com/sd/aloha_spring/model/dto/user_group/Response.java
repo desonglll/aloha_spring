@@ -1,4 +1,5 @@
-package com.sd.aloha_spring.model.dto.role;
+package com.sd.aloha_spring.model.dto.user_group;
+
 import lombok.*;
 
 import java.time.OffsetDateTime;
@@ -9,10 +10,12 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class RoleResponse {
+public class Response {
     private UUID id;
-    private String roleName;
-    private String description;
+
+    private String groupName;
+
     private OffsetDateTime createdAt;
+
     private OffsetDateTime updatedAt;
 }

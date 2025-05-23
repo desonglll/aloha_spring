@@ -1,7 +1,7 @@
 package com.sd.aloha_spring.controller;
 
-import com.sd.aloha_spring.model.dto.user_role.PostUserRoleRequest;
-import com.sd.aloha_spring.model.dto.user_role.UserRoleResponse;
+import com.sd.aloha_spring.model.dto.user_role.PostRequest;
+import com.sd.aloha_spring.model.dto.user_role.Response;
 import com.sd.aloha_spring.service.UserRoleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +18,22 @@ public class UserRoleController {
     private final UserRoleService userRoleService;
 
     @PostMapping
-    public UserRoleResponse create(@Valid @RequestBody PostUserRoleRequest request) {
+    public Response create(@Valid @RequestBody PostRequest request) {
         return userRoleService.createUserRole(request);
     }
 
     @GetMapping
-    public List<UserRoleResponse> getAll() {
+    public List<Response> getAll() {
         return userRoleService.getAllUserRoles();
     }
 
     @GetMapping("/{userId}/{roleId}")
-    public UserRoleResponse get(@PathVariable UUID userId, @PathVariable UUID roleId) {
+    public Response get(@PathVariable UUID userId, @PathVariable UUID roleId) {
         return userRoleService.getUserRole(userId, roleId);
     }
 
     @DeleteMapping("/{userId}/{roleId}")
-    public UserRoleResponse delete(@PathVariable UUID userId, @PathVariable UUID roleId) {
+    public Response delete(@PathVariable UUID userId, @PathVariable UUID roleId) {
         return userRoleService.deleteUserRole(userId, roleId);
     }
 }

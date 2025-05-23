@@ -8,7 +8,7 @@ import lombok.*;
 @NoArgsConstructor
 @ToString
 @Builder
-public class PatchUserRequest {
+public class PatchRequest {
     private String username;
     private String password;
     private String email;

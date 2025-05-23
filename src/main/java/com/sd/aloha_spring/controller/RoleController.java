@@ -1,8 +1,8 @@
 package com.sd.aloha_spring.controller;
 
-import com.sd.aloha_spring.model.dto.role.PatchRoleRequest;
-import com.sd.aloha_spring.model.dto.role.PostRoleRequest;
-import com.sd.aloha_spring.model.dto.role.RoleResponse;
+import com.sd.aloha_spring.model.dto.role.PatchRequest;
+import com.sd.aloha_spring.model.dto.role.PostRequest;
+import com.sd.aloha_spring.model.dto.role.Response;
 import com.sd.aloha_spring.service.RoleService;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,27 +19,27 @@ public class RoleController {
     }
 
     @PostMapping
-    public RoleResponse createRole(@RequestBody PostRoleRequest postRoleRequest) {
-        return (roleService.createRole(postRoleRequest));
+    public Response createRole(@RequestBody PostRequest postRequest) {
+        return (roleService.createRole(postRequest));
     }
 
     @GetMapping
-    public List<RoleResponse> getAllRoles() {
+    public List<Response> getAllRoles() {
         return (roleService.getAllRoles());
     }
 
     @GetMapping("{id}")
-    public RoleResponse getRoleById(@PathVariable UUID id) {
+    public Response getRoleById(@PathVariable UUID id) {
         return (roleService.getRoleById(id));
     }
 
     @PatchMapping("{id}")
-    public RoleResponse updateRole(@PathVariable UUID id, @RequestBody PatchRoleRequest patchRoleRequest) {
-        return (roleService.updateRole(id, patchRoleRequest));
+    public Response updateRole(@PathVariable UUID id, @RequestBody PatchRequest patchRequest) {
+        return (roleService.updateRole(id, patchRequest));
     }
 
     @DeleteMapping("{id}")
-    public RoleResponse deleteRoleById(@PathVariable UUID id) {
+    public Response deleteRoleById(@PathVariable UUID id) {
         return (roleService.deleteRoleById(id));
     }
 

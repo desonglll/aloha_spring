@@ -1,5 +1,5 @@
-// RolePermissionResponse.java
-package com.sd.aloha_spring.model.dto.role_permission;
+// UserRoleResponse.java
+package com.sd.aloha_spring.model.dto.user_role;
 
 import lombok.*;
 
@@ -11,9 +11,9 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RolePermissionResponse {
+public class Response {
+    private UUID userId;
     private UUID roleId;
-    private UUID permissionId;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 }

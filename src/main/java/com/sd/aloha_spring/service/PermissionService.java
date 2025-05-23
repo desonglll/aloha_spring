@@ -1,9 +1,8 @@
 package com.sd.aloha_spring.service;
 
-import com.sd.aloha_spring.model.dto.permission.PatchPermissionRequest;
-import com.sd.aloha_spring.model.dto.permission.PermissionResponse;
-import com.sd.aloha_spring.model.dto.permission.PostPermissionRequest;
-import com.sd.aloha_spring.model.entity.Permission;
+import com.sd.aloha_spring.model.dto.permission.PatchRequest;
+import com.sd.aloha_spring.model.dto.permission.Response;
+import com.sd.aloha_spring.model.dto.permission.PostRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,13 +10,13 @@ import java.util.UUID;
 
 @Service
 public interface PermissionService {
-    PermissionResponse createPermission(PostPermissionRequest postPermissionRequest);
+    Response createPermission(PostRequest postRequest);
 
-    List<PermissionResponse> getAllPermissions();
+    List<Response> getAllPermissions();
 
-    PermissionResponse getPermissionById(UUID id);
+    Response getPermissionById(UUID id);
 
-    PermissionResponse updatePermission(UUID id, PatchPermissionRequest patchPermissionRequest);
+    Response updatePermission(UUID id, PatchRequest patchRequest);
 
-    PermissionResponse deletePermissionById(UUID id);
+    Response deletePermissionById(UUID id);
 }

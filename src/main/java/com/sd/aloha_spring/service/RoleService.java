@@ -1,8 +1,8 @@
 package com.sd.aloha_spring.service;
 
-import com.sd.aloha_spring.model.dto.role.PatchRoleRequest;
-import com.sd.aloha_spring.model.dto.role.PostRoleRequest;
-import com.sd.aloha_spring.model.dto.role.RoleResponse;
+import com.sd.aloha_spring.model.dto.role.PatchRequest;
+import com.sd.aloha_spring.model.dto.role.PostRequest;
+import com.sd.aloha_spring.model.dto.role.Response;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.UUID;
 
 @Service
 public interface RoleService {
-    RoleResponse createRole(PostRoleRequest postRoleRequest);
+    Response createRole(PostRequest postRequest);
 
-    List<RoleResponse> getAllRoles();
+    List<Response> getAllRoles();
 
-    RoleResponse getRoleById(UUID id);
+    Response getRoleById(UUID id);
 
-    RoleResponse updateRole(UUID id, PatchRoleRequest patchRoleRequest);
+    Response updateRole(UUID id, PatchRequest patchRequest);
 
-    RoleResponse deleteRoleById(UUID id);
+    Response deleteRoleById(UUID id);
 }

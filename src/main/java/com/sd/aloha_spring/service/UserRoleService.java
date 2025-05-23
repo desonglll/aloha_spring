@@ -1,7 +1,7 @@
 package com.sd.aloha_spring.service;
 
-import com.sd.aloha_spring.model.dto.user_role.PostUserRoleRequest;
-import com.sd.aloha_spring.model.dto.user_role.UserRoleResponse;
+import com.sd.aloha_spring.model.dto.user_role.PostRequest;
+import com.sd.aloha_spring.model.dto.user_role.Response;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.UUID;
 
 @Service
 public interface UserRoleService {
-    UserRoleResponse createUserRole(PostUserRoleRequest request);
+    Response createUserRole(PostRequest request);
 
-    List<UserRoleResponse> getAllUserRoles();
+    List<Response> getAllUserRoles();
 
-    UserRoleResponse getUserRole(UUID userId, UUID roleId);
+    Response getUserRole(UUID userId, UUID roleId);
 
-    UserRoleResponse deleteUserRole(UUID userId, UUID roleId);
+    Response deleteUserRole(UUID userId, UUID roleId);
 }

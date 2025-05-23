@@ -1,7 +1,7 @@
 package com.sd.aloha_spring.controller;
 
-import com.sd.aloha_spring.model.dto.role_permission.PostRolePermissionRequest;
-import com.sd.aloha_spring.model.dto.role_permission.RolePermissionResponse;
+import com.sd.aloha_spring.model.dto.role_permission.PostRequest;
+import com.sd.aloha_spring.model.dto.role_permission.Response;
 import com.sd.aloha_spring.service.RolePermissionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -18,22 +18,22 @@ public class RolePermissionController {
     private final RolePermissionService rolePermissionService;
 
     @PostMapping
-    public RolePermissionResponse create(@Valid @RequestBody PostRolePermissionRequest request) {
+    public Response create(@Valid @RequestBody PostRequest request) {
         return rolePermissionService.createRolePermission(request);
     }
 
     @GetMapping
-    public List<RolePermissionResponse> getAll() {
+    public List<Response> getAll() {
         return rolePermissionService.getAllRolePermissions();
     }
 
     @GetMapping("/{roleId}/{permissionId}")
-    public RolePermissionResponse get(@PathVariable UUID roleId, @PathVariable UUID permissionId) {
+    public Response get(@PathVariable UUID roleId, @PathVariable UUID permissionId) {
         return rolePermissionService.getRolePermission(roleId, permissionId);
     }
 
     @DeleteMapping("/{roleId}/{permissionId}")
-    public RolePermissionResponse delete(@PathVariable UUID roleId, @PathVariable UUID permissionId) {
+    public Response delete(@PathVariable UUID roleId, @PathVariable UUID permissionId) {
         return rolePermissionService.deleteRolePermission(roleId, permissionId);
     }
 }

@@ -1,4 +1,4 @@
-package com.sd.aloha_spring.model.dto.role;
+package com.sd.aloha_spring.model.dto.permission;
 
 import lombok.*;
 
@@ -6,9 +6,8 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 @Builder
-public class PostRoleRequest {
-    private String roleName;
+public class PatchRequest {
+    private String permissionName;
     private String description;
 }

@@ -1,5 +1,5 @@
-// PostUserRoleRequest.java
-package com.sd.aloha_spring.model.dto.user_role;
+// PostRolePermissionRequest.java
+package com.sd.aloha_spring.model.dto.role_permission;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -10,9 +10,9 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostUserRoleRequest {
-    @NotNull
-    private UUID userId;
+public class PostRequest {
     @NotNull
     private UUID roleId;
+    @NotNull
+    private UUID permissionId;
 }

@@ -1,7 +1,7 @@
 package com.sd.aloha_spring.service.impl;
 
-import com.sd.aloha_spring.model.dto.user_role.PostUserRoleRequest;
-import com.sd.aloha_spring.model.dto.user_role.UserRoleResponse;
+import com.sd.aloha_spring.model.dto.user_role.PostRequest;
+import com.sd.aloha_spring.model.dto.user_role.Response;
 import com.sd.aloha_spring.model.entity.UserRole;
 import com.sd.aloha_spring.model.key.UserRoleId;
 import com.sd.aloha_spring.model.mapper.UserRoleMapper;
@@ -30,7 +30,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return
      */
     @Override
-    public UserRoleResponse createUserRole(PostUserRoleRequest request) {
+    public Response createUserRole(PostRequest request) {
         System.out.println(request.toString());
         UserRole userRole = userRoleMapper.postRequestToEntity(request);
         System.out.println(userRole.toString());
@@ -42,7 +42,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return
      */
     @Override
-    public List<UserRoleResponse> getAllUserRoles() {
+    public List<Response> getAllUserRoles() {
         return userRoleRepository.findAll().stream().map(userRoleMapper::entityToResponse).collect(Collectors.toList());
     }
 
@@ -52,7 +52,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return
      */
     @Override
-    public UserRoleResponse getUserRole(UUID userId, UUID roleId) {
+    public Response getUserRole(UUID userId, UUID roleId) {
         UserRoleId id = new UserRoleId(userId, roleId);
         UserRole entity = userRoleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("UserRole not found"));
         return userRoleMapper.entityToResponse(entity);
@@ -64,7 +64,7 @@ public class UserRoleServiceImpl implements UserRoleService {
      * @return
      */
     @Override
-    public UserRoleResponse deleteUserRole(UUID userId, UUID roleId) {
+    public Response deleteUserRole(UUID userId, UUID roleId) {
         UserRoleId id = new UserRoleId(userId, roleId);
         UserRole entity = userRoleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("UserRole not found"));
         userRoleRepository.delete(entity);

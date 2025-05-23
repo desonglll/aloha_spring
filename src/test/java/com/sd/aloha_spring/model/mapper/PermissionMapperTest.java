@@ -1,6 +1,6 @@
 package com.sd.aloha_spring.model.mapper;
 
-import com.sd.aloha_spring.model.dto.permission.PermissionResponse;
+import com.sd.aloha_spring.model.dto.permission.Response;
 import com.sd.aloha_spring.model.entity.Permission;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,11 +26,11 @@ class PermissionMapperTest {
         permission.setId(UUID.randomUUID());
         permission.setPermissionKey("Read");
         permission.setDescription("Read permission");
-        PermissionResponse permissionResponse = this.permissionMapper.entityToResponse(permission);
-        assertThat(permissionResponse).isNotNull();
-        assertThat(permissionResponse.getId()).isEqualTo(permission.getId());
-        assertThat(permissionResponse.getPermissionName()).isEqualTo(permission.getPermissionKey());
-        assertThat(permissionResponse.getDescription()).isEqualTo(permission.getDescription());
+        Response response = this.permissionMapper.entityToResponse(permission);
+        assertThat(response).isNotNull();
+        assertThat(response.getId()).isEqualTo(permission.getId());
+        assertThat(response.getPermissionName()).isEqualTo(permission.getPermissionKey());
+        assertThat(response.getDescription()).isEqualTo(permission.getDescription());
     }
     @Test
     void testMapperInjection() {

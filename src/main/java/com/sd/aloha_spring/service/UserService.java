@@ -1,8 +1,8 @@
 package com.sd.aloha_spring.service;
 
-import com.sd.aloha_spring.model.dto.user.PatchUserRequest;
-import com.sd.aloha_spring.model.dto.user.PostUserRequest;
-import com.sd.aloha_spring.model.dto.user.UserResponse;
+import com.sd.aloha_spring.model.dto.user.PatchRequest;
+import com.sd.aloha_spring.model.dto.user.PostRequest;
+import com.sd.aloha_spring.model.dto.user.Response;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,13 +10,13 @@ import java.util.UUID;
 
 @Service
 public interface UserService {
-    UserResponse createUser(PostUserRequest postUserRequest);
+    Response createUser(PostRequest postRequest);
 
-    List<UserResponse> getAllUsers();
+    List<Response> getAllUsers();
 
-    UserResponse getUserById(UUID id);
+    Response getUserById(UUID id);
 
-    UserResponse updateUser(UUID id, PatchUserRequest patchUserRequest);
+    Response updateUser(UUID id, PatchRequest patchRequest);
 
-    UserResponse deleteUserById(UUID id);
+    Response deleteUserById(UUID id);
 }

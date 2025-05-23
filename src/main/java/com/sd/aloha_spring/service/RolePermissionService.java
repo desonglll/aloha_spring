@@ -1,7 +1,7 @@
 package com.sd.aloha_spring.service;
 
-import com.sd.aloha_spring.model.dto.role_permission.PostRolePermissionRequest;
-import com.sd.aloha_spring.model.dto.role_permission.RolePermissionResponse;
+import com.sd.aloha_spring.model.dto.role_permission.PostRequest;
+import com.sd.aloha_spring.model.dto.role_permission.Response;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,11 +9,11 @@ import java.util.UUID;
 
 @Service
 public interface RolePermissionService {
-    RolePermissionResponse createRolePermission(PostRolePermissionRequest request);
+    Response createRolePermission(PostRequest request);
 
-    List<RolePermissionResponse> getAllRolePermissions();
+    List<Response> getAllRolePermissions();
 
-    RolePermissionResponse getRolePermission(UUID userId, UUID roleId);
+    Response getRolePermission(UUID userId, UUID roleId);
 
-    RolePermissionResponse deleteRolePermission(UUID userId, UUID roleId);
+    Response deleteRolePermission(UUID userId, UUID roleId);
 }

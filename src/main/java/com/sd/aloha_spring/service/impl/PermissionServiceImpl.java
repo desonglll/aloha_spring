@@ -1,8 +1,8 @@
 package com.sd.aloha_spring.service.impl;
 
-import com.sd.aloha_spring.model.dto.permission.PatchPermissionRequest;
-import com.sd.aloha_spring.model.dto.permission.PermissionResponse;
-import com.sd.aloha_spring.model.dto.permission.PostPermissionRequest;
+import com.sd.aloha_spring.model.dto.permission.PatchRequest;
+import com.sd.aloha_spring.model.dto.permission.Response;
+import com.sd.aloha_spring.model.dto.permission.PostRequest;
 import com.sd.aloha_spring.model.entity.Permission;
 import com.sd.aloha_spring.model.mapper.PermissionMapper;
 import com.sd.aloha_spring.repository.PermissionRepository;
@@ -29,27 +29,27 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public PermissionResponse createPermission(PostPermissionRequest postPermissionRequest) {
-        Permission permission = permissionMapper.postRequestToEntity(postPermissionRequest);
+    public Response createPermission(PostRequest postRequest) {
+        Permission permission = permissionMapper.postRequestToEntity(postRequest);
         permissionRepository.save(permission);
         return permissionMapper.entityToResponse(permission);
     }
 
     @Override
-    public List<PermissionResponse> getAllPermissions() {
+    public List<Response> getAllPermissions() {
         return permissionRepository.findAll().stream().map(permissionMapper::entityToResponse).collect(Collectors.toList());
     }
 
     @Override
-    public PermissionResponse getPermissionById(UUID id) {
+    public Response getPermissionById(UUID id) {
         return permissionMapper.entityToResponse(permissionRepository.findById(id).orElseThrow());
     }
 
 
     @Override
-    public PermissionResponse updatePermission(UUID id, PatchPermissionRequest patchPermissionRequest) {
+    public Response updatePermission(UUID id, PatchRequest patchRequest) {
         Permission permission = permissionRepository.findById(id).orElseThrow();
-        Permission patchPermissionRequestToPermission = permissionMapper.patchRequestToEntity(patchPermissionRequest, permission);
+        Permission patchPermissionRequestToPermission = permissionMapper.patchRequestToEntity(patchRequest, permission);
         permissionRepository.save(permission);
         return permissionMapper.entityToResponse(patchPermissionRequestToPermission);
     }
@@ -59,7 +59,7 @@ public class PermissionServiceImpl implements PermissionService {
      * @return
      */
     @Override
-    public PermissionResponse deletePermissionById(UUID id) {
+    public Response deletePermissionById(UUID id) {
         return permissionRepository.findById(id).map(permission -> {
             permissionRepository.deleteById(id);
             return permissionMapper.entityToResponse(permission);

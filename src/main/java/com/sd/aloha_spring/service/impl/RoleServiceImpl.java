@@ -1,8 +1,8 @@
 package com.sd.aloha_spring.service.impl;
 
-import com.sd.aloha_spring.model.dto.role.PatchRoleRequest;
-import com.sd.aloha_spring.model.dto.role.PostRoleRequest;
-import com.sd.aloha_spring.model.dto.role.RoleResponse;
+import com.sd.aloha_spring.model.dto.role.PatchRequest;
+import com.sd.aloha_spring.model.dto.role.PostRequest;
+import com.sd.aloha_spring.model.dto.role.Response;
 import com.sd.aloha_spring.model.entity.Role;
 import com.sd.aloha_spring.model.mapper.RoleMapper;
 import com.sd.aloha_spring.repository.RoleRepository;
@@ -27,32 +27,32 @@ public class RoleServiceImpl implements RoleService {
 
 
     @Override
-    public RoleResponse createRole(PostRoleRequest postRoleRequest) {
-        Role role = roleMapper.postRequestToEntity(postRoleRequest);
+    public Response createRole(PostRequest postRequest) {
+        Role role = roleMapper.postRequestToEntity(postRequest);
         roleRepository.save(role);
         return roleMapper.entityToResponse(role);
     }
 
     @Override
-    public List<RoleResponse> getAllRoles() {
+    public List<Response> getAllRoles() {
         return roleRepository.findAll().stream().map(roleMapper::entityToResponse).collect(Collectors.toList());
     }
 
     @Override
-    public RoleResponse getRoleById(UUID id) {
+    public Response getRoleById(UUID id) {
         return roleMapper.entityToResponse(roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role with id " + id + " not found")));
     }
 
     @Override
-    public RoleResponse updateRole(UUID id, PatchRoleRequest patchRoleRequest) {
+    public Response updateRole(UUID id, PatchRequest patchRequest) {
         Role role = roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role with id " + id + " not found"));
-        Role patchedRoleRequestToRole = roleMapper.patchRequestToEntity(patchRoleRequest, role);
+        Role patchedRoleRequestToRole = roleMapper.patchRequestToEntity(patchRequest, role);
         roleRepository.save(role);
         return roleMapper.entityToResponse(patchedRoleRequestToRole);
     }
 
     @Override
-    public RoleResponse deleteRoleById(UUID id) {
+    public Response deleteRoleById(UUID id) {
         Role role = roleRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Role with id " + id + " not found"));
         roleRepository.delete(role);
         return roleMapper.entityToResponse(role);

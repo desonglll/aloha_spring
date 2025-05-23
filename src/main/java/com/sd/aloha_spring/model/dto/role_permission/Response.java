@@ -1,18 +1,19 @@
-// PostRolePermissionRequest.java
+// RolePermissionResponse.java
 package com.sd.aloha_spring.model.dto.role_permission;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PostRolePermissionRequest {
-    @NotNull
+@Builder
+public class Response {
     private UUID roleId;
-    @NotNull
     private UUID permissionId;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime updatedAt;
 }
