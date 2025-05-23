@@ -1,34 +1,28 @@
 package com.sd.aloha_spring.model.entity;
 
+import com.sd.aloha_spring.model.key.RolePermissionId;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
-import java.util.UUID;
 
 @Entity
+@Table(name = "role_permissions")
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @ToString
-@Table(name = "permissions")
-public class Permission {
-    @Id
-    private UUID id;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class RolePermission {
 
-    @Column(name = "permission_key", nullable = false, unique = true)
-    private String permissionKey;
-
-    @Column(name = "description")
-    private String description;
+    @EmbeddedId
+    private RolePermissionId id;
 
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
-
 
     @PrePersist
     public void prePersist() {
@@ -41,6 +35,5 @@ public class Permission {
     public void preUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
-
 
 }

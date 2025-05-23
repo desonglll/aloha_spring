@@ -9,26 +9,29 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @ToString
-@Table(name = "permissions")
-public class Permission {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "users")
+public class User {
     @Id
     private UUID id;
 
-    @Column(name = "permission_key", nullable = false, unique = true)
-    private String permissionKey;
-
-    @Column(name = "description")
-    private String description;
-
+    @Column(name = "user_name", nullable = false)
+    private String username;
+    @Column(name = "password", nullable = false)
+    private String password;
+    @Column(name = "email", nullable = false)
+    private String email;
+    @Column(name = "phone", nullable = false)
+    private String phone;
+    @Column(name = "enabled")
+    private boolean enabled;
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
-
 
     @PrePersist
     public void prePersist() {
@@ -41,6 +44,5 @@ public class Permission {
     public void preUpdate() {
         this.updatedAt = OffsetDateTime.now();
     }
-
 
 }

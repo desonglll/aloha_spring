@@ -9,26 +9,25 @@ import java.util.UUID;
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @ToString
-@Table(name = "permissions")
-public class Permission {
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Table(name = "roles")
+public class Role {
+
     @Id
     private UUID id;
 
-    @Column(name = "permission_key", nullable = false, unique = true)
-    private String permissionKey;
+    @Column(name = "role_name", nullable = false, unique = true)
+    private String roleName;
 
     @Column(name = "description")
     private String description;
-
     @Column(name = "created_at")
     private OffsetDateTime createdAt;
     @Column(name = "updated_at")
     private OffsetDateTime updatedAt;
-
 
     @PrePersist
     public void prePersist() {

@@ -6,8 +6,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.mybatis.spring.annotation.MapperScan;
 
 import java.util.Arrays;
+
 
 @SpringBootApplication
 public class AlohaSpringApplication {
@@ -19,11 +21,11 @@ public class AlohaSpringApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 		return args -> {
-			String[] beanNames = ctx.getBeanDefinitionNames();
+			/*String[] beanNames = ctx.getBeanDefinitionNames();
 			Arrays.sort(beanNames);
 			for (String beanName : beanNames) {
 				System.out.println(beanName);
-			}
+			}*/
 		};
 	}
 }

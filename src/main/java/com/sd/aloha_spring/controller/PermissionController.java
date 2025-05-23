@@ -1,15 +1,13 @@
 package com.sd.aloha_spring.controller;
 
-import com.sd.aloha_spring.model.dto.CreatePermissionRequest;
-import com.sd.aloha_spring.model.dto.PermissionResponse;
-import com.sd.aloha_spring.model.entity.Permission;
-import com.sd.aloha_spring.model.mapper.PermissionMapper;
+import com.sd.aloha_spring.model.dto.permission.PatchPermissionRequest;
+import com.sd.aloha_spring.model.dto.permission.PermissionResponse;
+import com.sd.aloha_spring.model.dto.permission.PostPermissionRequest;
 import com.sd.aloha_spring.service.PermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/permissions")
@@ -17,20 +15,38 @@ public class PermissionController {
 
     private final PermissionService permissionService;
 
-    public PermissionController(PermissionService permissionService ) {
+    public PermissionController(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
 
 
     @PostMapping
-    public PermissionResponse createPermission(@RequestBody CreatePermissionRequest createPermissionRequest) {
-
-        return permissionService.createPermission(createPermissionRequest);
+    public PermissionResponse createPermission(@RequestBody PostPermissionRequest postPermissionRequest) {
+        return (permissionService.createPermission(postPermissionRequest));
     }
 
     @GetMapping
     public List<PermissionResponse> getAllPermissions() {
-        List<Permission> permissionList= permissionService.list();
-        return null;
+        return (permissionService.getAllPermissions());
+    }
+
+    @GetMapping("{id}")
+    public PermissionResponse getPermissionById(@PathVariable UUID id) {
+        return (permissionService.getPermissionById(id));
+    }
+
+    @PatchMapping("{id}")
+    public PermissionResponse updatePermission(@PathVariable UUID id, @RequestBody PatchPermissionRequest patchPermissionRequest) {
+        return (permissionService.updatePermission(id, patchPermissionRequest));
+    }
+
+    @DeleteMapping("{id}")
+    public PermissionResponse deletePermission(@PathVariable UUID id) {
+        return (permissionService.deletePermissionById(id));
+    }
+
+    @PutMapping("{id}")
+    public PermissionResponse putPermissionById(@PathVariable UUID id, PatchPermissionRequest patchPermissionRequest) {
+        return (permissionService.updatePermission(id, patchPermissionRequest));
     }
 }

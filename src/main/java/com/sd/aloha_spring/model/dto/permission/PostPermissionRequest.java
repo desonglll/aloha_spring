@@ -1,4 +1,4 @@
-package com.sd.aloha_spring.model.dto;
+package com.sd.aloha_spring.model.dto.permission;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -7,8 +7,9 @@ import lombok.*;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
-public class CreatePermissionRequest {
+public class PostPermissionRequest {
     @NotNull
     private String permissionName;
     private String description;

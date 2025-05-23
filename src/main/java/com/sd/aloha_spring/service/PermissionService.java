@@ -1,13 +1,23 @@
 package com.sd.aloha_spring.service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.sd.aloha_spring.model.dto.CreatePermissionRequest;
-import com.sd.aloha_spring.model.dto.PermissionResponse;
+import com.sd.aloha_spring.model.dto.permission.PatchPermissionRequest;
+import com.sd.aloha_spring.model.dto.permission.PermissionResponse;
+import com.sd.aloha_spring.model.dto.permission.PostPermissionRequest;
 import com.sd.aloha_spring.model.entity.Permission;
 import org.springframework.stereotype.Service;
 
-@Service
-public interface PermissionService extends IService<Permission> {
+import java.util.List;
+import java.util.UUID;
 
-    PermissionResponse createPermission(CreatePermissionRequest createPermissionRequest);
+@Service
+public interface PermissionService {
+    PermissionResponse createPermission(PostPermissionRequest postPermissionRequest);
+
+    List<PermissionResponse> getAllPermissions();
+
+    PermissionResponse getPermissionById(UUID id);
+
+    PermissionResponse updatePermission(UUID id, PatchPermissionRequest patchPermissionRequest);
+
+    PermissionResponse deletePermissionById(UUID id);
 }
